@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GildedRoseCS
@@ -19,6 +20,11 @@ namespace GildedRoseCS
         {
             return item.Name != "Backstage passes to a TAFKAL80ETC concert";
         }
+
+        private bool ItemIsNotSulfuras(Item item)
+        {
+            return item.Name != "Sulfuras, Hand of Ragnaros";
+        }
 		
 		public void UpdateQuality()
 		{
@@ -28,7 +34,7 @@ namespace GildedRoseCS
 				{
 					if (item.Quality > 0)
 					{
-						if (item.Name != "Sulfuras, Hand of Ragnaros")
+						if (ItemIsNotSulfuras(item))
 						{
 							item.Quality = item.Quality - 1;
 						}
@@ -59,7 +65,7 @@ namespace GildedRoseCS
 						}
 					}
 				}
-				if (item.Name != "Sulfuras, Hand of Ragnaros")
+				if (ItemIsNotSulfuras(item))
 				{
 					item.SellIn = item.SellIn - 1;
 				}
@@ -72,7 +78,7 @@ namespace GildedRoseCS
 						{
 							if (item.Quality > 0)
 							{
-								if (item.Name != "Sulfuras, Hand of Ragnaros")
+								if (ItemIsNotSulfuras(item))
 								{
 									item.Quality = item.Quality - 1;
 								}
@@ -93,5 +99,5 @@ namespace GildedRoseCS
 				}
 			}
 		}
-	}
+    }
 }
