@@ -29,6 +29,15 @@ namespace GildedRoseTests
         }
 
         [Test]
+        public void ItemQualityNeverGoesIntoNegative()
+        {
+            IList<Item> Items = new List<Item> { new Item { Name = "item", SellIn = 0, Quality = 0 } };
+            GildedRose GildedRose = new GildedRose(Items);
+            GildedRose.UpdateQuality();
+            Assert.AreEqual(0, Items[0].Quality);
+        }
+
+        [Test]
         public void ItemSellInDecreasesAfterOneDay()
         {
             IList<Item> Items = new List<Item> { new Item { Name = "item", SellIn = 10, Quality = 10 } };
@@ -66,12 +75,21 @@ namespace GildedRoseTests
         }
 
         [Test]
-        public void ItemSellInDecreasesByOneWhenNotRecognised()
+        public void OncePassedSellDataQualityDecreasesTwiceAsFast()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "Item", SellIn = 10, Quality = 0 } };
+            IList<Item> Items = new List<Item> { new Item { Name = "item", SellIn = 0, Quality = 10 } };
             GildedRose GildedRose = new GildedRose(Items);
             GildedRose.UpdateQuality();
-            Assert.AreEqual(9, Items[0].SellIn);
+            Assert.AreEqual(8, Items[0].Quality);
+        }
+
+        [Test]
+        public void AgedBrieQualityIncreasesOverTime()
+        {
+            IList<Item> Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 5, Quality = 5 } };
+            GildedRose GildedRose = new GildedRose(Items);
+            GildedRose.UpdateQuality();
+            Assert.AreEqual(6, Items[0].Quality);
         }
     }
 }
