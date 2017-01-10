@@ -20,19 +20,7 @@ namespace GildedRoseTests
         }
 
         [Test]
-        public void ThirtyDays()
-        {
-            StringBuilder fakeoutput = new StringBuilder();
-            Console.SetOut(new StringWriter(fakeoutput));
-            Console.SetIn(new StringReader("a\n"));
-
-            Program.Main(new string[] { });
-            String output = fakeoutput.ToString();
-            //Approvals.Verify(output); ?
-        }
-
-        [Test]
-        public void ItemQualityDecreasesOneWhenNotRecognised()
+        public void ItemQualityDecreasesAfterOneDay()
         {
             IList<Item> Items = new List<Item> { new Item { Name = "item", SellIn = 10, Quality = 10 } };
             GildedRose GildedRose = new GildedRose(Items);
@@ -41,25 +29,35 @@ namespace GildedRoseTests
         }
 
         [Test]
-        public void BackstagePassesThatHaveSellInLessThan11AndHigherThan50QualityDoNotChange()
+        public void ItemSellInDecreasesAfterOneDay()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 51 } };
+            IList<Item> Items = new List<Item> { new Item { Name = "item", SellIn = 10, Quality = 10 } };
             GildedRose GildedRose = new GildedRose(Items);
             GildedRose.UpdateQuality();
-            Assert.AreEqual(51, Items[0].Quality);
+            Assert.AreEqual(9, Items[0].SellIn);
+        }
+
+
+        [Test]
+        public void BackstagePassQualityIncreasesByTwoWhenSellInIsLessThan11Days()
+        {
+            IList<Item> Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 48 } };
+            GildedRose GildedRose = new GildedRose(Items);
+            GildedRose.UpdateQuality();
+            Assert.AreEqual(50, Items[0].Quality);
         }
 
         [Test]
-        public void BackstagePassesThatHaveSellInLessThan11And45QualityIncreaseTwice()
+        public void BackstagePassQualityDropsTo0PastSellInData()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 45 } };
+            IList<Item> Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 0, Quality = 10 } };
             GildedRose GildedRose = new GildedRose(Items);
             GildedRose.UpdateQuality();
-            Assert.AreEqual(47, Items[0].Quality);
+            Assert.AreEqual(0, Items[0].Quality);
         }
 
         [Test]
-        public void BackstagePassesThatHaveSellInLessThan11And49QualityIncreaseOnce()
+        public void QualityDoesNotGoAbove50()
         {
             IList<Item> Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 49 } };
             GildedRose GildedRose = new GildedRose(Items);
