@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GildedRoseCS
@@ -65,7 +66,7 @@ namespace GildedRoseCS
 				}
 				if (ItemIsNotSulfuras(item))
 				{
-                    DecreaseItemQuality(item);
+                    item.SellIn--;
 				}
 				if (item.SellIn < 0)
 				{
@@ -88,7 +89,7 @@ namespace GildedRoseCS
 					}
 					else
 					{
-                        DecreaseItemQuality(item);
+                        IncreaseItemQuality(item);
 					}
 				}
 			}
