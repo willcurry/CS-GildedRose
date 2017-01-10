@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace GildedRoseCS
@@ -25,51 +24,49 @@ namespace GildedRoseCS
         {
             return item.Name != "Sulfuras, Hand of Ragnaros";
         }
+
+        private bool ItemIsNotRecognised(Item item)
+        {
+            return ItemIsNotBrie(item) && ItemIsNotBackstagePass(item) && ItemIsNotSulfuras(item);
+        }
+
+        private void DecreaseItemQuality(Item item)
+        {
+            if (item.Quality > 0) item.Quality--;
+        }
+
+        private void IncreaseItemQuality(Item item)
+        {
+            if (item.Quality < 50) item.Quality++;
+        }
 		
 		public void UpdateQuality()
 		{
 			foreach (Item item in Items)
 			{
-				if (ItemIsNotBrie(item) && ItemIsNotBackstagePass(item))
+				if (ItemIsNotRecognised(item))
 				{
-					if (item.Quality > 0)
-					{
-						if (ItemIsNotSulfuras(item))
-						{
-							item.Quality = item.Quality - 1;
-						}
-					}
+                    DecreaseItemQuality(item);
 				}
 				else
 				{
-					if (item.Quality < 50)
-					{
-						item.Quality = item.Quality + 1;
-						
-						if (!ItemIsNotBackstagePass(item))
-						{
-							if (item.SellIn < 11)
-							{
-								if (item.Quality < 50)
-								{
-									item.Quality = item.Quality + 1;
-								}
-							}
-							if (item.SellIn < 6)
-							{
-								if (item.Quality < 50)
-								{
-									item.Quality = item.Quality + 1;
-								}
-							}
-						}
-					}
+                    IncreaseItemQuality(item);
+                    if (!ItemIsNotBackstagePass(item))
+                    {
+                        if (item.SellIn < 11)
+                        {
+                            IncreaseItemQuality(item);
+                        }
+                        if (item.SellIn < 6)
+                        {
+                            IncreaseItemQuality(item);
+                        }
+                    }
 				}
 				if (ItemIsNotSulfuras(item))
 				{
-					item.SellIn = item.SellIn - 1;
+                    DecreaseItemQuality(item);
 				}
-				
 				if (item.SellIn < 0)
 				{
 					if (ItemIsNotBrie(item))
@@ -80,7 +77,7 @@ namespace GildedRoseCS
 							{
 								if (ItemIsNotSulfuras(item))
 								{
-									item.Quality = item.Quality - 1;
+                                    DecreaseItemQuality(item);
 								}
 							}
 						}
@@ -91,10 +88,7 @@ namespace GildedRoseCS
 					}
 					else
 					{
-						if (item.Quality < 50)
-						{
-							item.Quality = item.Quality + 1;
-						}
+                        DecreaseItemQuality(item);
 					}
 				}
 			}
