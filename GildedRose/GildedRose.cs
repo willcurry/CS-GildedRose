@@ -9,16 +9,13 @@ namespace GildedRoseCS
 
         public GildedRose(IList<Item> Items, ItemUpdate ItemUpdate) 
 		{
-			this.Items = Items;
+		    this.Items = Items;
             this.ItemUpdate = ItemUpdate;
 		}
 		
 		public void UpdateQuality()
 		{
-			foreach (Item item in Items)
-			{
-                ItemUpdate.Run(item);
-			}
+			foreach (Item item in Items) ItemUpdate.Run(item);
 		}
     }
 }
