@@ -37,7 +37,8 @@ namespace GildedRoseCS
 				new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
 			};
 
-			var app = new GildedRose(Items);
+            var ItemUpdate = new ItemUpdate();
+			var app = new GildedRose(Items, ItemUpdate);
 
 			
 			for (var i = 0; i < 31; i++)
