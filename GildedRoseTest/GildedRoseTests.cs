@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 using GildedRoseCS;
-using System.Text;
-using System;
-using System.IO;
 
 namespace GildedRoseTests
 {
@@ -11,12 +8,14 @@ namespace GildedRoseTests
     public class GildedRoseTests
     {
         IList<Item> Items;
+        IList<UpdateType> UpdateTypes;
         ItemUpdate ItemUpdate;
         GildedRose GildedRose;
 
         public void SetUp(IList<Item> Items)
         {
-            ItemUpdate = new ItemUpdate();
+            UpdateTypes = new List<UpdateType> {new DefaultUpdate(), new BackstagePassUpdate(), new AgedBrieUpdate(), new SulfarusUpdateType()};
+            ItemUpdate = new ItemUpdate(UpdateTypes);
             GildedRose = new GildedRose(Items, ItemUpdate);
         }
 
@@ -60,7 +59,7 @@ namespace GildedRoseTests
         [Test]
         public void BackstagePassQualityIncreasesByTwoWhenSellInIsLessThan11Days()
         {
-            Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 48 } };
+            Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 6, Quality = 48 } };
             SetUp(Items);
             GildedRose.UpdateQuality();
             Assert.AreEqual(50, Items[0].Quality);

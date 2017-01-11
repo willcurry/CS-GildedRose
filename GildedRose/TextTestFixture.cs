@@ -37,7 +37,8 @@ namespace GildedRoseCS
 				new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
 			};
 
-            var ItemUpdate = new ItemUpdate();
+            var UpdateTypes = new List<UpdateType> {new BackstagePassUpdate(), new AgedBrieUpdate(), new SulfarusUpdateType()};
+            var ItemUpdate = new ItemUpdate(UpdateTypes);
 			var app = new GildedRose(Items, ItemUpdate);
 
 			

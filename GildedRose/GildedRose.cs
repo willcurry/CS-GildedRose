@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace GildedRoseCS
@@ -18,13 +17,8 @@ namespace GildedRoseCS
 		{
 			foreach (Item item in Items)
 			{
-                UpdateItem(item);
+                ItemUpdate.Run(item);
 			}
 		}
-
-        private void UpdateItem(Item item)
-        {
-            ItemUpdate.Run(item);
-        }
     }
 }
