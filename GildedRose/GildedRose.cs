@@ -11,24 +11,24 @@ namespace GildedRoseCS
 			this.Items = Items;
 		}
 
-        private bool ItemIsNotBrie(Item item)
+        private bool ItemIsBrie(Item item)
         {
-            return item.Name != "Aged Brie";
+            return item.Name == "Aged Brie";
         }
 
-        private bool ItemIsNotBackstagePass(Item item)
+        private bool ItemIsBackstagePass(Item item)
         {
-            return item.Name != "Backstage passes to a TAFKAL80ETC concert";
+            return item.Name == "Backstage passes to a TAFKAL80ETC concert";
         }
 
-        private bool ItemIsNotSulfuras(Item item)
+        private bool ItemIsSulfuras(Item item)
         {
-            return item.Name != "Sulfuras, Hand of Ragnaros";
+            return item.Name == "Sulfuras, Hand of Ragnaros";
         }
 
         private bool ItemIsNotRecognised(Item item)
         {
-            return ItemIsNotBrie(item) && ItemIsNotBackstagePass(item) && ItemIsNotSulfuras(item);
+            return !ItemIsBrie(item) && !ItemIsBackstagePass(item) && !ItemIsSulfuras(item);
         }
 
         private void DecreaseItemQuality(Item item)
@@ -52,47 +52,39 @@ namespace GildedRoseCS
 				else
 				{
                     IncreaseItemQuality(item);
-                    if (!ItemIsNotBackstagePass(item))
+                    if (ItemIsBackstagePass(item))
                     {
-                        if (item.SellIn < 11)
-                        {
-                            IncreaseItemQuality(item);
-                        }
-                        if (item.SellIn < 6)
-                        {
-                            IncreaseItemQuality(item);
-                        }
+                        IncreaseBackstagePassQuality(item);
                     }
 				}
-				if (ItemIsNotSulfuras(item))
+				if (!ItemIsSulfuras(item))
 				{
                     item.SellIn--;
 				}
 				if (item.SellIn < 0)
 				{
-					if (ItemIsNotBrie(item))
-					{
-						if (ItemIsNotBackstagePass(item))
-						{
-							if (item.Quality > 0)
-							{
-								if (ItemIsNotSulfuras(item))
-								{
-                                    DecreaseItemQuality(item);
-								}
-							}
-						}
-						else
-						{
-						    item.Quality = item.Quality - item.Quality;
-						}
-					}
-					else
-					{
-                        IncreaseItemQuality(item);
-					}
+                    ItemPastSellDate(item);
 				}
 			}
 		}
+
+        private void IncreaseBackstagePassQuality(Item item)
+        {
+            if (item.SellIn < 11)
+            {
+                IncreaseItemQuality(item);
+            }
+            if (item.SellIn < 6)
+            {
+                IncreaseItemQuality(item);
+            }
+        }
+
+        private void ItemPastSellDate(Item item)
+        {
+            if (ItemIsNotRecognised(item)) DecreaseItemQuality(item);
+            else if (ItemIsBackstagePass(item)) item.Quality = item.Quality - item.Quality;
+            else if (ItemIsBrie(item)) IncreaseItemQuality(item);
+        }
     }
 }
