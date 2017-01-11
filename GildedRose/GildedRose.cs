@@ -20,5 +20,10 @@ namespace GildedRoseCS
                 ItemUpdate.Run(item);
 			}
 		}
+
+        public static void Main(string[] args)
+        {
+
+        }
     }
 }
