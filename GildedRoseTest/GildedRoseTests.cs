@@ -20,15 +20,6 @@ namespace GildedRoseTests
         }
 
         [Test]
-        public void TestMethod()
-        {
-            Items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
-            SetUp(Items);
-            GildedRose.UpdateQuality();
-            Assert.AreEqual("foo", Items[0].Name);
-        }
-
-        [Test]
         public void ItemQualityDecreasesAfterOneDay()
         {
             Items = new List<Item> { new Item { Name = "item", SellIn = 10, Quality = 10 } };

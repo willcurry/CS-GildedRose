@@ -20,10 +20,7 @@ namespace GildedRoseCS
         {
             foreach (UpdateType update in UpdateTypes)
             {
-                if (update.CanApplyTo(item))
-                {
-                    update.Apply(item);
-                }
+                if (update.CanApplyTo(item)) update.Apply(item);
             }
         }
     }
